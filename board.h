@@ -29,11 +29,14 @@ char board_get(board_t *board_, size_t col, size_t row);
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
 void board_set(board_t *board_, size_t col, size_t row, char val);
 
-/* Leer de una lista de caracteres e interpretarla como un tablero */
-int board_load(board_t *board, char *str); // ?????????
+/* Recibe el puntero al archivo apuntando al inicio del tablero
+  y lo almacena en memoria */
+void board_load(board_t *board, FILE *inputFile);
+
+/* Guarda un tablero en un archivo */
+void board_save(board_t *board, FILE *outputFile);
 
 /* Función para mostrar el tablero */
-/* La función 'board_show' asume que hay espacio suficiente en 'res' para alojar el tablero.*/
 void board_show(board_t *board_, char *res);
 
 /* Destroy board */

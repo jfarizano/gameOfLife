@@ -8,7 +8,7 @@ void board_init(board_t *board_, size_t col, size_t row){
   board_->cols = col;
   board_->board = malloc(sizeof(char*) * row);
   for(size_t i = 0; i < row; i++){
-      board_->board[i] = malloc(sizeof(char) * col);
+      board_->board[i] = malloc(sizeof(char) * (col + 1));
   }
 }
 
@@ -33,8 +33,17 @@ void board_set(board_t *board_, size_t col, size_t row, char val){
 }
 
 
-int board_load(board_t *board, char *str); // ?????????
+void board_load(board_t *board_, FILE *inputFile){
+  for (int i = 0; i < board_->rows; i++) {
+    fscanf(inputFile, "%s", board_->board[i]);
+  }
+}
 
+void board_save(board_t *board_, FILE *outputFile){
+  for (int i = 0; i < board_->rows; i++) {
+    fprintf(outputFile, "%s\n", board_->board[i]);
+  }
+}
 
 void board_show(board_t *board_, char *res){
   for(int i = 0; i < board_->rows; i++){
