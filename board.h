@@ -8,8 +8,9 @@
 /* Definición de la estructura de datos del tablero */
 
 typedef struct _board{
-  int rows, cols;
-  char** board;
+  size_t rows, cols;
+  char **board;
+  char **nextGen;
 }board_t;
 
 /******************************************************************************/
@@ -37,7 +38,7 @@ void board_load(board_t *board, FILE *inputFile);
 void board_save(board_t *board, FILE *outputFile);
 
 /* Función para mostrar el tablero */
-void board_show(board_t *board_, char *res);
+void board_show(board_t *board_);
 
 /* Destroy board */
 void board_destroy(board_t *board_);

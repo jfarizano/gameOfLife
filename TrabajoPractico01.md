@@ -76,6 +76,8 @@ Que a su vez evoluciona a:
 
 Y así...
 
+    
+  
 ## Notas para la implementación
 
 Dado que no tenemos la posibilidad de implementar un tablero infinito en una
