@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/sysinfo.h>
 #include "board.h"
 #include "game.h"
 
@@ -7,6 +10,8 @@
 #define ABAJO(i, rows) ((i + 1) % rows)
 #define IZQUIERDA(j, cols) ((j - 1) == -1 ? cols - 1 : j - 1)
 #define DERECHA(j, cols) ((j + 1) % cols)
+
+game_t *globalGame;
 
 game_t *loadGame(const char *filename){
   game_t *game = malloc(sizeof(game_t));
@@ -26,10 +31,30 @@ void writeBoard(board_t *board, const char *filename){
   fclose(fp);
 }
 
-board_t *conwayGoL(board_t *board, unsigned int cycles, const int nuproc);
+void conwayGoL(game_t* game, const int nuproc) {
+  globalGame = game;
+  pthread_t threads[nuproc];
+
+  for (int i = 0; i < nuproc; i++) {
+    pthread_create(&threads[i], NULL, nextGen, &i);
+  }
+
+  for (int i = 0; i < 5; i++) {
+    pthread_join(threads[i], NULL);
+  }
+
+  for (unsigned int i = 0; i < game->cycles; i++) {
+    // SE PONE BARRERA
+    char **temp = game->board->board;
+    game->board->board = game->board->nextGen;
+    game->board->nextGen = temp;
+    // SE LEVANTA BARRERA
+  }
+  
+}
 
 size_t neighborsCount(board_t *board, size_t i, size_t j){
-  size_t count = 0, rows = board->rows, cols = board->cols, index1, index2;
+  size_t count = 0, rows = board->rows, cols = board->cols;
 
   // Vecino arriba.
   if (board->board[ARRIBA(i, rows)][j] == ALIVE) {  
@@ -84,32 +109,20 @@ void newCellState(board_t *board, size_t i, size_t j){
   }
 }
 
-void nextGen(board_t *board){
-  board->nextGen = malloc(sizeof(char*) * board->rows);
-  for (size_t i = 0; i < board->rows; i++){
-      board->nextGen[i] = malloc(sizeof(char) * (board->cols + 1));
-  }
+void *nextGen(void* arg){
+  int threadId = *((int*) arg);
+  char *temp;
 
-  // PARALELIZAR ESTO
-  for (size_t i = 0; i < board->rows; i++) {
-    for (size_t j = 0; j < board->cols; j++) {
-      newCellState(board, i, j);
+  for (size_t i = 0; i < globalGame->board->rows; i++) {
+    for (size_t j = 0; j < globalGame->board->cols; j++) {
+      newCellState(globalGame->board, i, j);
     }
   }
-
-  for (size_t i = 0; i < board->rows; i++) {
-    free(board->board[i]);
-  }
-  free(board->board);
-
-  board->board = board->nextGen;
-  board->nextGen = NULL;
+  // ESPERO
+  for (size_t i = 0; i < globalGame->board->rows; i++) {
+    temp = globalGame->board->board[i];
+    globalGame->board->board[i] = globalGame->board->nextGen[i];
+    globalGame->board->nextGen[i] = temp;
+  } 
+  // ESPERO 
 }
-
-/*
-  IDEA:
-  Tenemos guardado el actual en board->board,
-  le hacemos newCellState y lo nuevo está en board->nextGen,
-  guardamos board->board en un temporal, 
-  board->board = board->nextGen y luego board->nextGen = temp
-*/

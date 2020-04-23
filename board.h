@@ -24,12 +24,6 @@ void board_init(board_t *board_, size_t col, size_t row);
 /* Creación del tablero con un elemento por default*/
 void board_init_def(board_t *board_, size_t col, size_t row, char def);
 
-/* Leer el tablero en una posición (col, row) */
-char board_get(board_t *board_, size_t col, size_t row);
-
-/* Asignarle un valor 'val' a la posición (col, row) del tablero*/
-void board_set(board_t *board_, size_t col, size_t row, char val);
-
 /* Recibe el puntero al archivo apuntando al inicio del tablero
   y lo almacena en memoria */
 void board_load(board_t *board, FILE *inputFile);

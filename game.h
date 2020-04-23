@@ -23,11 +23,13 @@ void writeBoard(board_t *board, const char *filename);
 
 /* Simulamos el Juego de la Vida de Conway con tablero 'board' la cantidad de
 ciclos indicados en 'cycles' en 'nuprocs' unidades de procesamiento*/
-board_t *conwayGoL(board_t *board, unsigned int cycles, const int nuproc);
+void conwayGoL(game_t* game, const int nuproc);
 
 /* Cuenta la cantidad de vecinos vivos para la posición i,j */
 size_t neighborsCount(board_t *board, size_t i, size_t j);
 
+/* Modifica el estado de una célula según las reglas del juego */
 void newCellState(board_t *board, size_t i, size_t j);
 
-void nextGen(board_t *board);
+/* Modifica todas las células del tablero usando newCellState */
+void *nextGen(void *arg);
