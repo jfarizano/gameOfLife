@@ -7,6 +7,7 @@
 int main() {
   game_t *game = loadGame("entrada.txt");
   conwayGoL(game, get_nprocs());
+  // conwayGoL(game, 1);
   writeBoard(game->board, "salida.txt");
   board_destroy(game->board);
   free(game);

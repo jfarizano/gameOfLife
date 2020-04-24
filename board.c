@@ -6,8 +6,8 @@ void board_init(board_t *board_, size_t col, size_t row){
   board_->board = malloc(sizeof(char*) * row);
   board_->nextGen = malloc(sizeof(char*) * row);
   for (size_t i = 0; i < row; i++){
-      board_->board[i] = malloc(sizeof(char) * (col + 1));
-      board_->nextGen[i] = malloc(sizeof(char) * (col + 1));
+    board_->board[i] = malloc(sizeof(char) * (col + 1));
+    board_->nextGen[i] = malloc(sizeof(char) * (col + 1));
   }
 }
 
@@ -18,8 +18,8 @@ void board_init_def(board_t *board_, size_t col, size_t row, char def){
   board_->board = malloc(sizeof(char*) * row);
   board_->nextGen = NULL;
   for (size_t i = 0; i < row; i++){
-      board_->board[i] = malloc(sizeof(char) * (col + 1));
-      for (size_t j = 0; j < col; j++){
+    board_->board[i] = malloc(sizeof(char) * (col + 1));
+    for (size_t j = 0; j < col; j++){
       board_->board[i][j] = def;
     }
   }

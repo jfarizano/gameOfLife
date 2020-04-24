@@ -15,3 +15,7 @@ $(GAME): game.c
 .PHONY: clean
 clean:
 	rm -rf *.o
+
+.PHONY: valgrind
+valgrind:
+	valgrind --tool=memcheck --leak-check=full ./main.o

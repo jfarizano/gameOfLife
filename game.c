@@ -53,7 +53,7 @@ void conwayGoL(game_t* game, const int nuproc) {
     pthread_create(&threads[i], NULL, nextGen, tInfo[i]);
   }
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < nuproc; i++) {
     pthread_join(threads[i], NULL);
   }
 
@@ -130,14 +130,12 @@ void *nextGen(void* arg) {
         newCellState(tInfo->game->board, j, k);
       }
     }
-    // printf("%d llegó a 1\n", tInfo->id);
     pthread_barrier_wait(&barrier);
     for (size_t j = tInfo->from; j < tInfo->to; j++) {
       temp = tInfo->game->board->board[j];
       tInfo->game->board->board[j] = tInfo->game->board->nextGen[j];
       tInfo->game->board->nextGen[j] = temp;
     }
-    // printf("%d llegó a 2\n", tInfo->id);
     pthread_barrier_wait(&barrier);
   } 
 

@@ -1,11 +1,10 @@
 import os
 import sys
+import subprocess
 import time
 from termcolor import colored, cprint
 
 def main():
-  tablero = []
-
   with open("entrada.txt", 'r') as file:
     datos = file.readline()
   
@@ -13,11 +12,11 @@ def main():
 
   for i in range(times):
     os.system("./main.o")
+    inputFile = open("salida.txt", "r")
     outputFile = open("entrada.txt", "w")
     outputFile.write(datos)        
-    inputFile = open("salida.txt")
 
-    os.system("clear")
+    # os.system("clear")
     for line in inputFile.readlines():
       outputFile.write(line)
       strLine = ""
@@ -27,13 +26,10 @@ def main():
         elif line[j] == 'O':
           strLine += colored(line[j], "yellow") + " "
       print(strLine)
-
-    time.sleep(0.1)
-
-    if i < times-1:
-      os.system("clear")
+    print(i)
 
     outputFile.close()
     inputFile.close()
+    time.sleep(0.1)
 
 main()
