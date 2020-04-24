@@ -1,17 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/sysinfo.h>
-#include "board.h"
 #include "game.h"
 
-#define ARRIBA(i, rows) ((i - 1) == -1 ? rows - 1 : i - 1)
-#define ABAJO(i, rows) ((i + 1) % rows)
-#define IZQUIERDA(j, cols) ((j - 1) == -1 ? cols - 1 : j - 1)
-#define DERECHA(j, cols) ((j + 1) % cols)
+#define ARRIBA(i, rows) ((i - ((size_t) 1)) == ((size_t) -1) ? rows - ((size_t) 1) : i - ((size_t) 1))
+#define ABAJO(i, rows) ((i + ((size_t) 1)) % rows)
+#define IZQUIERDA(j, cols) ((j - ((size_t) 1)) ==  ((size_t) -1) ? cols - ((size_t) 1) : j - ((size_t) 1))
+#define DERECHA(j, cols) ((j + ((size_t) 1)) % cols)
 
-game_t *globalGame;
+pthread_barrier_t barrier;
 
 game_t *loadGame(const char *filename){
   game_t *game = malloc(sizeof(game_t));
@@ -32,25 +26,42 @@ void writeBoard(board_t *board, const char *filename){
 }
 
 void conwayGoL(game_t* game, const int nuproc) {
-  globalGame = game;
   pthread_t threads[nuproc];
+  threadInfo_t *tInfo[nuproc];
+
+  size_t n = game->board->rows / nuproc;
+  size_t mod = game->board->rows % nuproc;
+  size_t actual = 0;
+
+  // Le asignamos a cada hilo sus filas
+  for (int i = 0; i < nuproc; i++) {
+    tInfo[i] = malloc(sizeof(threadInfo_t));
+    tInfo[i]->game = game;
+    tInfo[i]->id = i;
+    tInfo[i]->from = actual;
+    actual += n;
+    if (mod) {
+      actual++;
+      mod--;
+    }
+    tInfo[i]->to = actual;
+  }
+
+  pthread_barrier_init(&barrier, NULL, nuproc);
 
   for (int i = 0; i < nuproc; i++) {
-    pthread_create(&threads[i], NULL, nextGen, &i);
+    pthread_create(&threads[i], NULL, nextGen, tInfo[i]);
   }
 
   for (int i = 0; i < 5; i++) {
     pthread_join(threads[i], NULL);
   }
 
-  for (unsigned int i = 0; i < game->cycles; i++) {
-    // SE PONE BARRERA
-    char **temp = game->board->board;
-    game->board->board = game->board->nextGen;
-    game->board->nextGen = temp;
-    // SE LEVANTA BARRERA
+  for (int i = 0; i < nuproc; i++) {
+    free(tInfo[i]);
   }
   
+  pthread_barrier_destroy(&barrier);
 }
 
 size_t neighborsCount(board_t *board, size_t i, size_t j){
@@ -109,20 +120,26 @@ void newCellState(board_t *board, size_t i, size_t j){
   }
 }
 
-void *nextGen(void* arg){
-  int threadId = *((int*) arg);
+void *nextGen(void* arg) {
+  threadInfo_t *tInfo = (threadInfo_t*) arg;
   char *temp;
 
-  for (size_t i = 0; i < globalGame->board->rows; i++) {
-    for (size_t j = 0; j < globalGame->board->cols; j++) {
-      newCellState(globalGame->board, i, j);
+  for (size_t i = 0; i < tInfo->game->cycles; i++) {
+    for (size_t j = tInfo->from; j < tInfo->to; j++) {
+      for (size_t k = 0; k < tInfo->game->board->cols; k++) {
+        newCellState(tInfo->game->board, j, k);
+      }
     }
-  }
-  // ESPERO
-  for (size_t i = 0; i < globalGame->board->rows; i++) {
-    temp = globalGame->board->board[i];
-    globalGame->board->board[i] = globalGame->board->nextGen[i];
-    globalGame->board->nextGen[i] = temp;
+    // printf("%d llegó a 1\n", tInfo->id);
+    pthread_barrier_wait(&barrier);
+    for (size_t j = tInfo->from; j < tInfo->to; j++) {
+      temp = tInfo->game->board->board[j];
+      tInfo->game->board->board[j] = tInfo->game->board->nextGen[j];
+      tInfo->game->board->nextGen[j] = temp;
+    }
+    // printf("%d llegó a 2\n", tInfo->id);
+    pthread_barrier_wait(&barrier);
   } 
-  // ESPERO 
+
+  return NULL;
 }

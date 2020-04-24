@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
 #include "board.h"
 
 /******************************************************************************/
@@ -7,12 +11,18 @@
 /******************************************************************************/
 /* La estructura de un juego es simplemente un tablero y la cantidad de veces
 que se va a iterar */
-struct _game {
+typedef struct _game {
   board_t *board;
   unsigned int cycles;
-};
+} game_t;
 
-typedef struct _game game_t;
+typedef struct _threadInfo {
+  game_t* game;
+  size_t from, to;
+  int id;
+} threadInfo_t;
+
+
 /******************************************************************************/
 
 /* Cargamos el juego desde un archivo */

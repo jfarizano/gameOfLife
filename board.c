@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "board.h"
-
 
 void board_init(board_t *board_, size_t col, size_t row){
   board_->rows = row;
@@ -41,8 +38,8 @@ void board_save(board_t *board_, FILE *outputFile){
 }
 
 void board_show(board_t *board_){
-  for (int i = 0; i < board_->rows; i++){
-    for(int j = 0; j < board_->cols; j++){
+  for (size_t i = 0; i < board_->rows; i++){
+    for(size_t j = 0; j < board_->cols; j++){
       printf("|%c", board_->board[i][j]);
     }
     printf("|\n");
@@ -51,7 +48,7 @@ void board_show(board_t *board_){
 
 
 void board_destroy(board_t *board_){
-  for (int i = 0; i < board_->rows; i++){
+  for (size_t i = 0; i < board_->rows; i++){
     free(board_->board[i]);
     free(board_->nextGen[i]);
   }
