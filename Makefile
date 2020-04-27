@@ -18,4 +18,4 @@ clean:
 
 .PHONY: valgrind
 valgrind:
-	valgrind --tool=memcheck --leak-check=full ./main.o
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes -s ./main.o "entrada.txt" "salida.txt"

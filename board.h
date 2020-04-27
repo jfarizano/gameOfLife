@@ -21,9 +21,6 @@ typedef struct _board{
 /* Creación del tablero */
 void board_init(board_t *board_, size_t col, size_t row);
 
-/* Creación del tablero con un elemento por default*/
-void board_init_def(board_t *board_, size_t col, size_t row, char def);
-
 /* Recibe el puntero al archivo apuntando al inicio del tablero
   y lo almacena en memoria */
 void board_load(board_t *board, FILE *inputFile);

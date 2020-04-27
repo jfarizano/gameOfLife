@@ -12,10 +12,12 @@
 //  el pdf
 
 int main(int argc, char* argv[]) {
+  if (argc != 3) {
+    printf("Cantidad de argumentos incorrecta, finalizando programa\n");
+  }
   game_t *game = loadGame(argv[1]);
   conwayGoL(game, get_nprocs());
-  // conwayGoL(game, 1);
-  writeBoard(game->board, "salida.txt");
+  writeBoard(game->board, argv[2]);
   board_destroy(game->board);
   free(game);
   return 0;

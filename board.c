@@ -11,20 +11,6 @@ void board_init(board_t *board_, size_t col, size_t row){
   }
 }
 
-
-void board_init_def(board_t *board_, size_t col, size_t row, char def){
-  board_->rows = row;
-  board_->cols = col;
-  board_->board = malloc(sizeof(char*) * row);
-  board_->nextGen = NULL;
-  for (size_t i = 0; i < row; i++){
-    board_->board[i] = malloc(sizeof(char) * (col + 1));
-    for (size_t j = 0; j < col; j++){
-      board_->board[i][j] = def;
-    }
-  }
-} 
-
 void board_load(board_t *board_, FILE *inputFile){
   for (size_t i = 0; i < board_->rows; i++) {
     fscanf(inputFile, "%s", board_->board[i]);
@@ -45,7 +31,6 @@ void board_show(board_t *board_){
     printf("|\n");
   }
 } 
-
 
 void board_destroy(board_t *board_){
   for (size_t i = 0; i < board_->rows; i++){
