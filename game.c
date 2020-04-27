@@ -26,15 +26,17 @@ void writeBoard(board_t *board, const char *filename){
 }
 
 void conwayGoL(game_t* game, const int nuproc) {
-  pthread_t threads[nuproc];
-  threadInfo_t *tInfo[nuproc];
+  // Si hay mas hilos que filas usaremos la misma cantidad de hilos que de filas
+  int cantHilos = nuproc > (int)game->board->rows ? (int)game->board->rows : nuproc;
+  pthread_t threads[cantHilos];
+  threadInfo_t *tInfo[cantHilos];
 
-  size_t n = game->board->rows / nuproc;
-  size_t mod = game->board->rows % nuproc;
+  size_t n = game->board->rows / cantHilos;
+  size_t mod = game->board->rows % cantHilos;
   size_t actual = 0;
 
   // Le asignamos a cada hilo sus filas
-  for (int i = 0; i < nuproc; i++) {
+  for (int i = 0; i < cantHilos; i++) {
     tInfo[i] = malloc(sizeof(threadInfo_t));
     tInfo[i]->game = game;
     tInfo[i]->id = i;
@@ -47,17 +49,17 @@ void conwayGoL(game_t* game, const int nuproc) {
     tInfo[i]->to = actual;
   }
 
-  pthread_barrier_init(&barrier, NULL, nuproc);
+  pthread_barrier_init(&barrier, NULL, cantHilos);
 
-  for (int i = 0; i < nuproc; i++) {
+  for (int i = 0; i < cantHilos; i++) {
     pthread_create(&threads[i], NULL, nextGen, tInfo[i]);
   }
 
-  for (int i = 0; i < nuproc; i++) {
+  for (int i = 0; i < cantHilos; i++) {
     pthread_join(threads[i], NULL);
   }
 
-  for (int i = 0; i < nuproc; i++) {
+  for (int i = 0; i < cantHilos; i++) {
     free(tInfo[i]);
   }
   
@@ -130,12 +132,16 @@ void *nextGen(void* arg) {
         newCellState(tInfo->game->board, j, k);
       }
     }
+    // El hilo espera a que los demás terminen de calcular el nuevo estado
     pthread_barrier_wait(&barrier);
+    // Para copiar las filas al tablero nuevo, simplemente intercambiamos los 
+    // punteros de las mismas, así nos evitamos recorrer el tablero entero.
     for (size_t j = tInfo->from; j < tInfo->to; j++) {
       temp = tInfo->game->board->board[j];
       tInfo->game->board->board[j] = tInfo->game->board->nextGen[j];
       tInfo->game->board->nextGen[j] = temp;
     }
+    // El hilo espera a que los demás terminen de copiar sus filas.
     pthread_barrier_wait(&barrier);
   } 
 
