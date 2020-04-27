@@ -1,5 +1,5 @@
-#ifndef BOARD
-#define BOARD
+#ifndef __BOARD__
+#define __BOARD__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +19,7 @@ typedef struct _board{
 /* Funciones sobre el tablero */
 
 /* Creación del tablero */
-void board_init(board_t *board_, size_t col, size_t row);
+void board_init(board_t *board_, size_t row, size_t col);
 
 /* Recibe el puntero al archivo apuntando al inicio del tablero
   y lo almacena en memoria */
@@ -33,4 +33,5 @@ void board_show(board_t *board_);
 
 /* Destroy board */
 void board_destroy(board_t *board_);
-#endif
+
+#endif /* __BOARD__ */

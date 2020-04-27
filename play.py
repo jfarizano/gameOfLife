@@ -11,12 +11,12 @@ def main():
   times = int(input("Cuantas veces? "))
 
   for i in range(times):
-    os.system("./main.o")
+    os.system("./main.o entrada.txt salida.txt")
     inputFile = open("salida.txt", "r")
     outputFile = open("entrada.txt", "w")
     outputFile.write(datos)        
 
-    # os.system("clear")
+    os.system("clear")
     for line in inputFile.readlines():
       outputFile.write(line)
       strLine = ""
@@ -30,6 +30,6 @@ def main():
 
     outputFile.close()
     inputFile.close()
-    time.sleep(0.1)
+    time.sleep(0.05)
 
 main()

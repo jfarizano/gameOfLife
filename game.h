@@ -1,3 +1,6 @@
+#ifndef __GAME__
+#define __GAME__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -31,10 +34,6 @@ game_t *loadGame(const char *filename);
 /* Guardamos el tablero 'board' en el archivo 'filename' */
 void writeBoard(board_t *board, const char *filename);
 
-/* Simulamos el Juego de la Vida de Conway con tablero 'board' la cantidad de
-ciclos indicados en 'cycles' en 'nuprocs' unidades de procesamiento*/
-void conwayGoL(game_t* game, const int nuproc);
-
 /* Cuenta la cantidad de vecinos vivos para la posición i,j */
 size_t neighborsCount(board_t *board, size_t i, size_t j);
 
@@ -43,3 +42,9 @@ void newCellState(board_t *board, size_t i, size_t j);
 
 /* Modifica todas las células del tablero usando newCellState */
 void *nextGen(void *arg);
+
+/* Simulamos el Juego de la Vida de Conway con tablero 'board' la cantidad de
+ciclos indicados en 'cycles' en 'nuprocs' unidades de procesamiento*/
+void conwayGoL(game_t* game, const int nuproc);
+
+#endif /* __GAME__ */

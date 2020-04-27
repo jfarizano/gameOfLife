@@ -1,6 +1,6 @@
 #include "board.h"
 
-void board_init(board_t *board_, size_t col, size_t row){
+void board_init(board_t *board_, size_t row, size_t col){
   board_->rows = row;
   board_->cols = col;
   board_->board = malloc(sizeof(char*) * row);
@@ -19,7 +19,10 @@ void board_load(board_t *board_, FILE *inputFile){
 
 void board_save(board_t *board_, FILE *outputFile){
   for (size_t i = 0; i < board_->rows; i++) {
-    fprintf(outputFile, "%s\n", board_->board[i]);
+    fprintf(outputFile, "%s", board_->board[i]);
+    if (i != board_->rows -1) {
+      fprintf(outputFile, "\n");
+    }
   }
 }
 
