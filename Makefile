@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -std=gnu99 -Wall -Wextra -pedantic -lpthread
+CFLAGS = -Wall -Wextra -Wno-unused-result -pedantic -lpthread -O3 
 BOARD = board.o
 GAME = game.o
 
 main: main.c $(BOARD) $(GAME)
-	$(CC) main.c $(BOARD) $(GAME) -o main.o $(CFLAGS)
+	$(CC) main.c $(BOARD) $(GAME) -o simulador $(CFLAGS)
 
 $(BOARD): board.c
 	$(CC) board.c -c -o $(BOARD) $(CFLAGS)
@@ -14,8 +14,16 @@ $(GAME): game.c
 
 .PHONY: clean
 clean:
+	rm -f simulador
 	rm -rf *.o
+	rm -rf *.out
+	rm -rf *.final
 
-.PHONY: valgrind
-valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes -s ./main.o entrada.txt salida.txt
+.PHONY: memleak
+memleak:
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes -s ./simulador entrada.game
+
+.PHONY: ramusage
+ramusage:
+	valgrind --tool=massif --massif-out-file=massif.out ./simulador entrada.game
+	massif-visualizer massif.out
