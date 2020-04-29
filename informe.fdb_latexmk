@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1588195946 "/home/natalia/Escritorio/gameOfLife/informe.tex" "/home/natalia/Escritorio/gameOfLife/informe.pdf" "informe" 1588195946
+["pdflatex"] 1588196552 "/home/natalia/Escritorio/gameOfLife/informe.tex" "/home/natalia/Escritorio/gameOfLife/informe.pdf" "informe" 1588196552
   "/etc/texmf/web2c/texmf.cnf" 1586797143 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/natalia/Escritorio/gameOfLife/informe.aux" 1588195946 319 9a90177e65d55ad10d0396a041e78ead ""
-  "/home/natalia/Escritorio/gameOfLife/informe.tex" 1588195946 5466 cd4bc4e4225872d161c6c8fbdf5d632a ""
+  "/home/natalia/Escritorio/gameOfLife/informe.aux" 1588196552 319 9a90177e65d55ad10d0396a041e78ead ""
+  "/home/natalia/Escritorio/gameOfLife/informe.tex" 1588196551 5464 7bb245c8be2df45a20dac08f53190194 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1480098701 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1480098701 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -47,11 +47,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1520210507 32485 c64754543d8ac501bea6e75e209ea521 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1586809978 2700761 ac0584cc9514ab21918550a6948c4ee2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1586810023 4128945 2067acca492fc2cf2d1f1fa4ac90b1ae ""
-  "informe.aux" 1588195946 319 9a90177e65d55ad10d0396a041e78ead ""
-  "informe.tex" 1588195946 5466 cd4bc4e4225872d161c6c8fbdf5d632a ""
+  "informe.aux" 1588196552 319 9a90177e65d55ad10d0396a041e78ead ""
+  "informe.tex" 1588196551 5464 7bb245c8be2df45a20dac08f53190194 ""
   (generated)
-  "/home/natalia/Escritorio/gameOfLife/informe.log"
-  "informe.aux"
-  "informe.log"
-  "informe.pdf"
   "/home/natalia/Escritorio/gameOfLife/informe.pdf"
+  "/home/natalia/Escritorio/gameOfLife/informe.log"
+  "informe.log"
+  "informe.aux"
+  "informe.pdf"
