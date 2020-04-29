@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish, mexico]{babel}
 \usepackage[a4paper, margin=2.54cm]{geometry}
+\usepackage{ragged2e}
 
 %=========================================================================
 
@@ -31,9 +32,9 @@
   Mellino, Natalia
 }
 \date{}
+\begin{document}
 \maketitle
 
-\begin{document}
 %=========================================================================
 
 \section{Motivación}
@@ -71,4 +72,10 @@
             \item Este proceso es repetido tantas veces como ciclos haya ingresado el usuario. Una vez finalizados los ciclos, el tablero final es escrito en un archivo de salida y el usuario podrá verlo.
         \end{itemize}
     }
+    
+\section{Compilación y ejecución}
+    \justify{
+        Para compilar basta con poner en la terminal el comando: \begin{verbatim} $ make \end{verbatim}
+        y luego para ejecutar simplemente ponemos: \begin{verbatim} $ ./simulador.o fileName.game \end{verbatim}
+    }    
 \end{document}
