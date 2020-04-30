@@ -19,12 +19,13 @@ typedef struct _game {
   unsigned int cycles;
 } game_t;
 
+/* La estructura contiene la información que un hilo necesita para realizar
+su trabajo, el juego, sus filas asignadas y un identificador */
 typedef struct _threadInfo {
   game_t* game;
   size_t from, to;
   int id;
 } threadInfo_t;
-
 
 /******************************************************************************/
 
@@ -45,6 +46,6 @@ void *nextGen(void *arg);
 
 /* Simulamos el Juego de la Vida de Conway con tablero 'board' la cantidad de
 ciclos indicados en 'cycles' en 'nuprocs' unidades de procesamiento*/
-void conwayGoL(game_t* game, const int nuproc);
+void conwayGoL(game_t *game, const int nuproc);
 
 #endif /* __GAME__ */

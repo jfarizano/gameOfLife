@@ -31,7 +31,7 @@ void board_save(board_t *board, FILE *outputFile);
 /* Función para mostrar el tablero */
 void board_show(board_t *board_);
 
-/* Destroy board */
+/* Libera de la memoria el tablero */
 void board_destroy(board_t *board_);
 
 #endif /* __BOARD__ */

@@ -108,7 +108,7 @@ void *nextGen(void *arg) {
   return NULL;
 }
 
-void conwayGoL(game_t* game, const int nuproc) {
+void conwayGoL(game_t *game, const int nuproc) {
   // Si hay mas hilos que filas usaremos la misma cantidad de hilos que de filas
   int nThreads = nuproc > (int)game->board->rows ? (int)game->board->rows : nuproc;
   pthread_t threads[nThreads];

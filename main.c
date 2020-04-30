@@ -5,11 +5,6 @@
 #include "board.h"
 #include "game.h"
 
-// TODO: 
-// -comprobar si hay memory leaks, comentar en caso de que falte
-// -hacer un readme que diga como compilar y ejecutar esto o ver si ponerlo en 
-//  el pdf
-
 int main(int argc, char *argv[]) {
   if (argc != 2) {
     printf("Cantidad de argumentos incorrecta, finalizando programa\n");
