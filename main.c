@@ -10,7 +10,7 @@
 // -hacer un readme que diga como compilar y ejecutar esto o ver si ponerlo en 
 //  el pdf
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (argc != 2) {
     printf("Cantidad de argumentos incorrecta, finalizando programa\n");
     return -1;

@@ -1,9 +1,9 @@
 #include "game.h"
 
-#define UP(i, rows) ((i - ((size_t) 1)) == ((size_t) -1) ? rows - ((size_t) 1) : i - ((size_t) 1))
-#define DOWN(i, rows) ((i + ((size_t) 1)) % rows)
-#define LEFT(j, cols) ((j - ((size_t) 1)) ==  ((size_t) -1) ? cols - ((size_t) 1) : j - ((size_t) 1))
-#define RIGHT(j, cols) ((j + ((size_t) 1)) % cols)
+#define UP(i, rows) (!i ? rows - (size_t) 1 : i - (size_t) 1)
+#define DOWN(i, rows) ((i + (size_t) 1) % rows)
+#define LEFT(j, cols) (!j ? cols - (size_t) 1 : j - (size_t) 1)
+#define RIGHT(j, cols) ((j + (size_t) 1) % cols)
 
 pthread_barrier_t barrier;
 
@@ -82,7 +82,7 @@ void newCellState(board_t *board, size_t i, size_t j){
   }
 }
 
-void *nextGen(void* arg) {
+void *nextGen(void *arg) {
   threadInfo_t *tInfo = (threadInfo_t*) arg;
   char **temp;
 
@@ -96,7 +96,7 @@ void *nextGen(void* arg) {
     pthread_barrier_wait(&barrier);
     // Seleccionamos al thread 0 que siempre existirá, para que realice el
     // intercambio de tableros.
-    if (tInfo->id == 0) {
+    if (!tInfo->id) {
       temp = tInfo->game->board->board;
       tInfo->game->board->board = tInfo->game->board->nextGen;
       tInfo->game->board->nextGen = temp;
@@ -135,7 +135,7 @@ void conwayGoL(game_t* game, const int nuproc) {
   pthread_barrier_init(&barrier, NULL, nThreads);
 
   for (int i = 0; i < nThreads; i++) {
-    pthread_create(&threads[i], NULL, nextGen, tInfo[i]);
+    pthread_create(&threads[i], NULL, nextGen, (void*) tInfo[i]);
   }
 
   for (int i = 0; i < nThreads; i++) {
